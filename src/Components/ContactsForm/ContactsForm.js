@@ -1,4 +1,6 @@
 import { useState } from "react";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import style from "./ContactsForm.module.css";
 
