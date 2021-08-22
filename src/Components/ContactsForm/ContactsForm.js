@@ -1,46 +1,43 @@
-import { useState } from "react";
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from "prop-types";
 import style from "./ContactsForm.module.css";
+import { connect } from 'react-redux';
+import contactsAction from '../../redux/contact/contact-action';
 
-function ContactForm({ onSubmit }) {
-  const [name, setName] = useState("");
-  const [number, setNumber] = useState("");
 
-const handleChange = (event) => {
+class ContactForm extends Component {
+  state = {
+    name: '',
+    number: '',
+  };
+
+handleChange = event => {
     const { name, value } = event.currentTarget;
-
-    switch (name) {
-      case "name":
-        setName(value);
-        break;
-      case "number":
-        setNumber(value);
-        break;
-      default:
-        return;
-    }
+    this.setState({
+      [name]: value,
+    });
   };
-
-const handleSubmit = (event) => {
-    event.preventDefault();
-    onSubmit(name, number);
-    resetForm();
-};
   
-const resetForm = () => {
-    setName("");
-    setNumber("");
+  reset = () => {
+    this.setState({ name: '', number: '' });
   };
 
-return (
-      <form className={style.ContactForm} onSubmit={handleSubmit}>
+  handleSubmit = event => {
+    event.preventDefault();
+  
+    this.props.addContacts(this.state);
+    this.reset();
+  };
+  
+  render() {
+    const { name, number } = this.state;
+  
+    return (
+      <form className={style.ContactForm} onSubmit={this.handleSubmit}>
         <label className={style.label}>Name</label>
         <input
           className={style.input}
           value={name}
-          onChange={handleChange}
+          onChange={this.handleChange}
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -52,7 +49,7 @@ return (
         <input
           className={style.input}
           value={number}
-          onChange={handleChange}
+          onChange={this.handleChange}
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -66,10 +63,9 @@ return (
       </form>
     );
   }
-  
- ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-}; 
+}
 
-export default ContactForm;
-
+const mapDispatchToProps = dispatch => ({
+  addContacts: contactForm => dispatch(contactsAction.addContacts(contactForm)),
+});
+export default connect(null, mapDispatchToProps)(ContactForm);

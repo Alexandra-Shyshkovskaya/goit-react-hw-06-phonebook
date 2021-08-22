@@ -5,12 +5,12 @@ import ContactForm from "./Components/ContactsForm";
 import Filter from "./Components/SearchFilter";
 import ContactList from "./Components/ContactsList";
 
-const useLocalStorage = (key, defaultValue) => {
+/* const useLocalStorage = (key, defaultValue) => {
   const [state, setState] = useState(
     () => JSON.parse(window.localStorage.getItem(key)) ?? defaultValue,
-  );
+  ); */
 
-  useEffect(() => {
+/*   useEffect(() => {
     window.localStorage.setItem(key, JSON.stringify(state));
   }, [key, state]);
 
@@ -49,25 +49,18 @@ function App() {
       name.toLowerCase().includes( normalizedFilter),
     );
   };
+ */
 
+  export default function App() {
   return (
     <>
       <Container>
         <h1>Phonebook</h1>
-      <ContactForm onSubmit={addContacts} />
+      <ContactForm />
       <h2>Contacts</h2>
-      <Filter value={filter} onHandleChange={changeFilter} />
-      {contacts.length === 0 ? (
-          <p>There are no contacts in the phonebook. Please add contact</p>
-        ) : (
-          <ContactList
-            contacts={visibleContacts()}
-            deleteContacts={deleteContacts}
-          />
-        )}
+      <Filter />
+          <ContactList />
     </Container>
     </>
   );
 }
-
-export default App;
