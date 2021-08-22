@@ -1,5 +1,6 @@
+// eslint-disable-next-line
 export default {
-  ADD: 'Contact/addition',
-  DELETE: 'Contact/deletion',
-  CHANGE_FILTER: 'Contact/filter',
+  ADD: 'contact/add',
+  DELETE: 'contact/delete',
+  CHANGE_FILTER: 'contact/filter',
 };
